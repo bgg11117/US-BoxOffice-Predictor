@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#\n# This is the user-interface definition of a Shiny web application. You can\n# run the application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\n# Define UI for application that draws a histogram\nshinyUI(navbarPage(\n  \"Movie box prediction\",\n  tabPanel(\"Rank Analaze\",\n           sidebarLayout(\n             sidebarPanel(\n               sliderInput(\"r_bins\",\n                           \"Rank\",\n                           min = 1,\n                           max = 5,\n                           value = 2\n                           )\n             ),\n             mainPanel(\n               plotOutput(\"Genre_rank\"),\n               plotOutput(\"MPAA_rank\"),\n               plotOutput(\"Dist_rank\"),\n               #plotOutput(\"YtB_rank\"),\n               plotOutput(\"Mon\"),\n               plotOutput(\"LEN\")\n             )\n           )\n           ),\n  tabPanel(\"MPAA 3D scatterplot\",\n          mainPanel(\n            plotOutput(\"MPAA3D\")\n          )\n        ),\n  tabPanel(\"Make Predict\",\n           sidebarLayout(\n             sidebarPanel(\n              numericInput(\"Y_views\", \n                            label = h3(\"Youtube views\"), \n                            value = 1000),\n              numericInput(\"Rtime\", \n                           label = h3(\"Runtime(min)\"), \n                           value = 100),\n             selectInput(\"Month\", label = h3(\"Select Month\"), \n                         choices = list(\"January\"=\"January\",\n                                        \"February\"=\"February\",\n                                        \"March\"=\"March\",\n                                        \"April\"=\"April\",\n                                        \"May\"=\"May\",\n                                        \"June\"=\"June\",\n                                        \"July\"=\"July\",\n                                        \"August\"=\"August\",\n                                        \"September\"=\"September\",\n                                        \"October\"=\"October\",\n                                        \"November\"=\"November\",\n                                        \"December\"=\"December\",\n                                        \"Unknown\"=\"\"), selected = 1),\n             selectInput(\"MPAA\", label = h3(\"Select MPAA\"),\n                         choices = chifun(AAPL$MPAA) \n             ),\n             selectInput(\"Distrubutor\", label = h3(\"Select Distrubutor\"),\n                         choices = chifun(AAPL$Distrubutor)\n             ),\n             selectInput(\"Genre\", label = h3(\"Select Genre\"),\n                         choices = chifun(AAPL$Genre)\n             )\n             ),\n             mainPanel(\n               textOutput(\"make_pred\")\n             )\n           )\n  )\n)\n)\n",
+    "created" : 1469086980085.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "895084168",
+    "id" : "DCAD6893",
+    "lastKnownWriteTime" : 1469154173,
+    "last_content_update" : 1469154173351,
+    "path" : "~/R_P/Movie_pred_GUI/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

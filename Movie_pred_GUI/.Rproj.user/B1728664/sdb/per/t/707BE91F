@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\nlibrary('e1071')\nlibrary(plyr)\nlibrary(rgl)\nlibrary(scatterplot3d)\nsource(\"./svm_pred.R\")\n\nnpval = 0.2\n\nAAPL = LOAD_AAPL(np=npval)\n\nchifun <- function(X)\n{\n  testlist = as.list(t(count(X)[1]))\n  names(testlist) = t(count(X)[1])\n  return(testlist)\n}",
+    "created" : 1469120106636.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "880131912",
+    "id" : "707BE91F",
+    "lastKnownWriteTime" : 1469154141,
+    "last_content_update" : 1469154141030,
+    "path" : "~/R_P/Movie_pred_GUI/global.R",
+    "project_path" : "global.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

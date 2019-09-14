@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\nLOAD_AAPL = function(np=0.2)\n{\n  AAPL = read.csv('./Youtubelist.csv')\n  AAPL = AAPL[,-c(1,2,3,10)]#Range to process\n  \n  for(i in 1:7)\n    AAPL = AAPL[!is.na(AAPL[,i]),]\n  \n  #AAPL = AAPL[sample(nrow(AAPL),3000),]#Sampling\n  #AAPL = AAPL[order(AAPL$Box),]\n  \n  #AAPL$Youtube.Views = scale(AAPL$Youtube.Views)\n  #AAPL$Box = scale(AAPL$Box)\n  #AAPL$Budget[is.na(AAPL$Budget)] = mean(AAPL$Budget[!is.na(AAPL$Budget)])\n  #AAPL$Youtube.Views = scale(AAPL$Youtube.Views)\n  #plot(AAPL$Box)\n  \n  AAPL = as.data.frame(AAPL)\n  \n  np = ceiling(np * nrow(AAPL))\n  \n  #Y = ifelse(AAPL$Box>40000000,1,0)\n  \n  AAPL$Y = c(rep(0,length(AAPL$Box)))\n  #ranklist = c(-1,1e7L,5e7L,1e7L,2e8L)\n  ranklist = c(-1,7e6L,3e7L,7e7L,1e8L)\n  ranklist = as.numeric(ranklist)\n  for(i in 2:length(ranklist))\n  {\n    AAPL$Y[AAPL$Box<=ranklist[i] & AAPL$Box>ranklist[i-1]] = i-1\n  }\n  AAPL$Y[AAPL$Box>ranklist[length(ranklist)]] = length(ranklist)\n  \n  AAPL = AAPL[,-1]\n  return(AAPL)\n}\n\ntune_AAPL = function(AAPL, np=0.2)\n{\n  np = ceiling(np * nrow(AAPL))\n  test.index = sample(1:nrow(AAPL), np)\n  #test.index = 1:np\n  \n  AAPL.test = AAPL[test.index, ]\n  AAPL.train = AAPL[-test.index, ]\n  \n  tuned = tune.svm(Y ~ ., data = AAPL.train, gamma = 2^(-7:-5), cost = 2^(2:4))\n  return(tuned)\n}\n\ntest_AAPL = function(AAPL, t_cost=16, t_gamma=0.03125, np=0.2)\n{\n  np = ceiling(np * nrow(AAPL))\n  \n  test.index = sample(1:nrow(AAPL), np)\n  #test.index = 1:np\n  \n  AAPL.test = AAPL[test.index, ]\n  AAPL.train = AAPL[-test.index, ]\n  if(nrow(count(AAPL.train$Y))>1)\n  {\n    svm.model = svm(Y ~ ., data = AAPL.train, kernal='radial', type = 'C-classification', cost = t_cost, gamma = t_gamma)\n    #svm.model = readRDS(\"movie.svmodel\")\n    svm.pred = predict(svm.model, AAPL.test[, -7])\n    table.svm.test = table(pred = svm.pred, true = AAPL.test[, 7])\n    correct.svm = sum(diag(table.svm.test) / sum(table.svm.test)) * 100\n    result = cbind(AAPL.test, svm.pred)\n    result = result[order(result$Y),]#Sorting\n    return(list(correct.svm,result,svm.model))\n  }else{\n    print(\"Assert: There is only one label.\")\n    return(-1)\n  }\n}\n",
+    "created" : 1469127771290.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2873704168",
+    "id" : "39B9112F",
+    "lastKnownWriteTime" : 1469154160,
+    "last_content_update" : 1469154160763,
+    "path" : "~/R_P/Movie_pred_GUI/svm_pred.R",
+    "project_path" : "svm_pred.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
